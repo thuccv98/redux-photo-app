@@ -4,10 +4,10 @@ import {
   Switch,
   Redirect,
   Route,
-  Link,
 } from 'react-router-dom';
 import './App.scss';
 import NotFound from './components/NotFound';
+import Header from './components/Header';
 
 // Lazy load - code splitting
 const Photo = React.lazy(() => import('./features/Photo'));
@@ -17,18 +17,7 @@ function App() {
     <div className="photo-app">
       <Suspense fallback={<div>Loading...</div>}>
         <Router>
-          {/* Todo: Remove after testing */}
-          <ul>
-            <li>
-              <Link to="/photos">Go to photo app</Link>
-            </li>
-            <li>
-              <Link to="/photos/add">Go to add new Photo</Link>
-            </li>
-            <li>
-              <Link to="/photos/edit">Go to Edit photo</Link>
-            </li>
-          </ul>
+          <Header />
 
           <Switch>
             <Redirect exact from="/" to="/photos" />
