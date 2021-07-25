@@ -1,5 +1,6 @@
 import Banner from 'components/Banner';
 import Images from 'constants/images';
+import PhotoList from 'features/Photo/components/PhotoList';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,7 +17,10 @@ function MainPage(props) {
       <Banner title="Your awesome photos 🎉" backgroudUrl={Images.PINK_BG} />
 
       <Container className="text-center">
-        <Link to="/photos/add">Add new photo</Link>
+        <div className="py-5">
+          <Link to="/photos/add">Add new photo</Link>
+        </div>
+        <PhotoList photoList={photos} />
       </Container>
     </div>
   );
