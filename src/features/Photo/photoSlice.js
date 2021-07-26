@@ -91,9 +91,22 @@ const photo = createSlice({
       const newPhoto = action.payload;
       state.push(newPhoto);
     },
+    removePhoto: (state, action) => {
+      const removePhotoId = action.payload;
+      // muon remove mot phan tu nao thi chi can filter ra list ma co id khac voi cai id cua phan tu minh muon remove
+      return state.filter((photo) => photo.id !== removePhotoId);
+    },
+    updatePhoto: (state, action) => {
+      const newPhoto = action.payload;
+      const photoIndex = state.findIndex((photo) => photo.id === newPhoto.id);
+
+      if (photoIndex >= 0) {
+        state[photoIndex] = newPhoto;
+      }
+    },
   },
 });
 
 const { reducer, actions } = photo;
-export const { addPhoto } = actions;
+export const { addPhoto, removePhoto, updatePhoto } = actions;
 export default reducer;
