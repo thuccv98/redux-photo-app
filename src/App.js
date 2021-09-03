@@ -62,6 +62,10 @@ function App() {
 
         const token = await user.getIdToken();
         console.log('Logged in user token: ', token);
+        localStorage.setItem(
+          'firebaseui::rememberedAccounts',
+          JSON.stringify(user.providerData)
+        );
       });
 
     return () => unregisterAuthObserver();
