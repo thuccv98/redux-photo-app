@@ -13,6 +13,9 @@ import SignIn from 'features/Auth/pages/SignIn';
 
 import firebase from 'firebase';
 import { Button } from 'reactstrap';
+import { useDispatch } from 'react-redux';
+import { getMe } from 'app/userSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 // Lazy load - code splitting
 const Photo = React.lazy(() => import('./features/Photo'));
@@ -27,6 +30,7 @@ firebase.initializeApp(config);
 
 function App() {
   const [productList, setProductList] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProductList = async () => {
@@ -58,10 +62,18 @@ function App() {
           return;
         }
 
-        console.log('Logged in user:', user.displayName);
+        // Get me when signed in
+        try {
+          const actionResult = await dispatch(getMe());
+          const currentUser = unwrapResult(actionResult);
+          console.log('Logged in user: ', currentUser);
+        } catch (error) {
+          console.log('Failed to login ', error.message);
+        }
 
-        const token = await user.getIdToken();
-        console.log('Logged in user token: ', token);
+        // console.log('Logged in user:', user.displayName);
+        // const token = await user.getIdToken();
+        // console.log('Logged in user token: ', token);
         localStorage.setItem(
           'firebaseui::rememberedAccounts',
           JSON.stringify(user.providerData)
@@ -69,7 +81,7 @@ function App() {
       });
 
     return () => unregisterAuthObserver();
-  }, []);
+  }, [dispatch]);
 
   const handleButtunClick = async () => {
     try {
